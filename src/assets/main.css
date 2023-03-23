@@ -1,8 +1,8 @@
 :root{
-    --dark-color: #9B225C;
-    --red-color: #E21818;
-    --yellow-color: #FFDD83;
-    --aqua-color: #98DFD6;
+    --dark-color: #002B5B;
+    --red-color: #EA5455;
+    --bone-color: #E4DCCF;
+    --white-color: #98DFD6;
 }
 * {
     box-sizing: border-box;

@@ -16,10 +16,10 @@ export default{
 }
 </script>
 <style lang="scss">
-$dark-color: #00235B;
-$red-color: #E21818;
-$yellow-color: #FFDD83;
-$aqua-color: #98DFD6;
+$dark-color: #002B5B;
+$red-color: #EA5455;
+$bone-color: #E4DCCF;
+$white-color: #98DFD6;
 
 .logo{
   height: 15vh;
@@ -39,11 +39,11 @@ $aqua-color: #98DFD6;
   justify-content: center;
 }
 .start-button {
-  background-image: linear-gradient(to bottom right, $dark-color, $red-color, $yellow-color);
-  border: 0;
+  background-image: linear-gradient(to bottom right, $dark-color, $red-color, $bone-color);
+  border: 1 $bone-color;
   border-radius: 1rem;
   box-sizing: border-box;
-  color: #fff;
+  color: $dark-color;
   cursor: pointer;
   font-size: 1.125rem; /* 18px */
   font-weight: 600;
