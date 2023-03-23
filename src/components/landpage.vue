@@ -21,6 +21,10 @@ $red-color: #EA5455;
 $bone-color: #E4DCCF;
 $white-color: #98DFD6;
 
+*{
+  background-color: $red-color;
+}
+
 .logo{
   height: 15vh;
   display: flex;
@@ -39,16 +43,16 @@ $white-color: #98DFD6;
   justify-content: center;
 }
 .start-button {
-  background-image: linear-gradient(to bottom right, $dark-color, $red-color, $bone-color);
-  border: 1 $bone-color;
+  background-color: $dark-color;
+  border:0;
   border-radius: 1rem;
   box-sizing: border-box;
-  color: $dark-color;
+  color: $bone-color;
   cursor: pointer;
   font-size: 1.125rem; /* 18px */
   font-weight: 600;
   line-height: 1.75rem; /* 28px */
-  padding: 1rem 1.25rem;
+  padding: 0.65rem  1.25rem;
   text-align: center;
   user-select: none;
   -webkit-user-select: none;
