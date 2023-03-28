@@ -1,6 +1,6 @@
 <template>
-  <div class="card-wrapper" :style="wrapperStyle" @pointerdown="onPointerDown" @pointerup="onPointerUp" @pointermove="onPointerMove">
-    <div class="card" :style="cardStyle">
+  <div class="card-wrapper" @touchstart="onTouchStart" @touchend="onTouchEnd" @touchmove="onTouchMove">
+    <div class="card" :style="{ transform: 'translateX(' + this.x + 'px)' }">
       <img :src="filmImg" class="profile-img" />
       <div class="profile-info">
         <h2>{{ filmName }}</h2>
@@ -41,94 +41,57 @@ export default {
   },
   data() {
     return {
-      isDragging: false,
-      startPos: {
-        x: 0,
-        y: 0,
-      },
-      currentPos: {
-        x: 0,
-        y: 0,
-      },
-      endPos: {
-        x: 0,
-        y: 0,
-      },
+      x: 0,
+      y: 0,
+      dragging: false,
+      swipeDirection: null
     };
   },
-  computed: {
-    wrapperStyle() {
-      return {
-        transform: `translate(${this.currentPos.x}px, ${this.currentPos.y}px)`,
-      };
-    },
-    cardStyle() {
-      const rotation = ((this.currentPos.x) * Math.PI) / 180;
-      const rotateString = `rotate(${rotation}deg)`;
-      const scale = 1;
-      const scaleString = `scale(${scale})`;
-      return {
-        transform: `${rotateString} ${scaleString}`,
-      };
-    },
-  },
   methods: {
-    onPointerDown(e) {
-      console.log("DOWN")
-      this.isDragging = true;
-      this.startPos = {
-        x: e.clientX,
-        y: e.clientY,
-      };
+    onTouchStart(event) {
+      console.log("start")
+      this.dragging = true;
+      this.startX = event.touches[0].clientX;
+      this.startY = event.touches[0].clientY;
     },
-    onPointerMove(e) {
-      if (!this.isDragging) return;
-      let dx =0
-      let dy =0
-      if (e.pointerType === 'mouse') {
-        console.log("pc")
-        dx = e.clientX - this.startPos.x;
-        dy = e.clientY - this.startPos.y;
-      }else{
-        console.log("mobile")
-        dx = e.pageX - this.startPos.x;
+    onTouchMove(event) {
+      console.log("move")
+      if (this.dragging) {
+        const dx = event.touches[0].clientX - this.x;
+        const dy = event.touches[0].clientY - this.y;
+        this.x += dx;
+        this.y += dy;
       }
-      this.currentPos = {
-        x: dx,
-        y: dy,
-      };
     },
-    onPointerUp() {
-      console.log("UP")
-      if (!this.isDragging) return;
-      this.isDragging = false;
-      this.endPos = {
-        x: this.currentPos.x,
-        y: this.currentPos.y,
-      };
-      if (Math.abs(this.endPos.x) > 150) {
-        if (this.endPos.x < 0) {
-          this.onSwipeLeft();
-        } else {
-          this.onSwipeRight();
+    onTouchEnd(){
+      this.dragging = false;
+      // Calculate swipe direction
+      const dx = this.x - this.startX;
+      const dy = this.y - this.startY;
+      const threshold = 150
+      if(Math.abs(dx)>=threshold){
+        if(dx>0){
+          this.swipeDirection="right"
+          this.onSwipeRight()
+        }else{
+          this.swipeDirection="left"
+          this.onSwipeLeft()
         }
-        this.currentPos = {
-          x: 0,
-          y: 0,
-        };
-      } else {
-        this.currentPos = {
-          x: 0,
-          y: 0,
-        };
       }
-    },
+      this.x=0
+      this.y=0
+      // Trigger swipe event if necessary
+      if (this.swipeDirection) {
+        this.$emit("swipe", this.swipeDirection);
+      }
+    }
   },
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .card-wrapper {
+  touch-action: pan-x pan-y;
   color: black;
   position:relative;
   width: 100%;
@@ -136,38 +99,47 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+  .card {
+    position: relative;
+    width: 350px;
+    height: 500px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    cursor: grab;
+    transition: transform 1s;
+
+    .profile-img {
+      width: 100%;
+      height: 60%;
+      object-fit: cover;
+    }
+
+    .profile-info {
+      padding: 20px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    p {
+      margin: 10px 0 0;
+      font-size: 18px;
+      color: #666;
+    }
+  }
+  .dislike-card{
+    transform: scale(0.8);
+  }
 }
 
-.card {
-  position: relative;
-  width: 350px;
-  height: 500px;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  cursor: grab;
-}
 
-.profile-img {
-  width: 100%;
-  height: 60%;
-  object-fit: cover;
-}
 
-.profile-info {
-  padding: 20px;
-}
 
-h2 {
-  margin: 0;
-  font-size: 24px;
-  font-weight: bold;
-}
 
-p {
-  margin: 10px 0 0;
-  font-size: 18px;
-  color: #666;
-}
+
 </style>
