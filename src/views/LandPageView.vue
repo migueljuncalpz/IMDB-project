@@ -6,13 +6,19 @@
     <h3>The best film to view handpicked!</h3>
   </div>
   <div class="start">
-    <button class="start-button" role="button">Let´s GO!</button>
+    <button class="start-button" @click="getStarted()" role="button">Let´s GO!</button>
   </div>
 </template>
 
 <script>
 export default{
-  name:'LandPage'
+  name:'LandPage',
+  methods:{
+    getStarted() {
+        this.$router.push('/cardDeck')
+    },
+  }
+
 }
 </script>
 <style lang="scss">
@@ -20,10 +26,6 @@ $dark-color: #002B5B;
 $red-color: #EA5455;
 $bone-color: #E4DCCF;
 $white-color: #98DFD6;
-
-*{
-  background-color: $red-color;
-}
 
 .logo{
   height: 15vh;

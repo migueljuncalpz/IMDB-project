@@ -73,7 +73,6 @@ export default {
       console.log("start")
       this.dragging = true;
       this.startX = event.touches[0].clientX;
-      //this.startY = event.touches[0].clientY;
       this.x=this.startX;
     },
     onTouchMove(event) {
@@ -122,12 +121,18 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 $primary: rgb(0, 0, 1);
 $primary-light: hsl(222,50%,95%);
 $secondary: hsl(350,80%,50%);
 $red: hsl(10,80%,50%);
 $orange: hsl(50,80%,50%);
+
+@mixin mobile ($size: 640px) {
+  @media screen and (max-width: $size) {
+    @content;
+  }
+}
 
 .card {
   color: inherit;
@@ -135,9 +140,12 @@ $orange: hsl(50,80%,50%);
   min-width: 300px;
   max-width: 400px;
   min-height: 500px;
+  max-height: 70vh;
   perspective: 1000px;
   margin: 1rem;
-  position: absolute;
+  grid-row-start: 1;
+  grid-column-start: 1;
+  justify-self: center;
 }
 .front,
 .back {
@@ -146,16 +154,16 @@ $orange: hsl(50,80%,50%);
   background-position: center;
   background-size: cover;
   text-align: center;
-  justify-content: center;
   align-items: center;
-  position: absolute;
   height: 100%;
   width: 100%;
+  position: absolute;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   transform-style: preserve-3d;
   transition: ease-in-out 600ms;
   overflow: hidden;
+
   .film-info-button{
     position: absolute;
     margin: 1rem 1rem;
@@ -176,7 +184,6 @@ $orange: hsl(50,80%,50%);
   &:before {
     position: absolute;
     display: block;
-    content: '';
     top: 0;
     left: 0;
     right: 0;

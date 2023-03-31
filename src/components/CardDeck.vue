@@ -1,14 +1,14 @@
 
 <template>
-  <div class="card-deck">
+  <div class="wrap">
     <SwipeCard v-for="(film,index) in this.films" :key="film.filmId"
-        v-bind:style="'z-index:'+ index"
-        :film-img="film.filmImg"
-        :film-name="film.name"
-        :year="film.year"
-        :film-synopsys="film.synopsys"
-        @swipeLeft="onSwipeLeft"
-        @swipeRight="onSwipeRight"
+               v-bind:style="'z-index:'+ index"
+               :film-img="film.filmImg"
+               :film-name="film.name"
+               :year="film.year"
+               :film-synopsys="film.synopsys"
+               @swipeLeft="onSwipeLeft"
+               @swipeRight="onSwipeRight"
     />
   </div>
 </template>
@@ -52,7 +52,6 @@ export default {
           synopsys: 'James Cameron\'s "Titanic" is an epic, action-packed romance set against ... waters of the North Atlantic in the early hours of April 15, 1912.',
         },
       ],
-      index:0,
     };
   },
   methods: {
@@ -69,16 +68,10 @@ export default {
 </script>
 
 <style lang="scss">
-
-.card-deck{
-  display: flex;
-  width: 90vw;
-  height: fit-content;
+.wrap{
   justify-content: center;
+  display: grid;
+  grid-template-columns: 1fr;
+  height: 80vh;
 }
-.content{
-  display: flex;
-  height: fit-content;
-}
-
 </style>
