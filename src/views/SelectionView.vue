@@ -1,8 +1,10 @@
 
 <template>
-    <film-results></film-results>
+  <div class="selection-view">
+    <FilmResults></FilmResults>
     <CardDeck></CardDeck>
     <ChooseButtons></ChooseButtons>
+  </div>
 </template>
 
 <style lang="scss" scoped>
@@ -21,9 +23,42 @@ $white-color: #98DFD6;
   justify-content: center;
 
 }
+
+/* Deck transitions */
+.slide-fade-enter-active {
+  transition: all .3s ease;
+}
+.slide-fade-leave-active {
+  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.slide-fade-enter, .slide-fade-leave-to
+  /* .slide-fade-leave-active below version 2.1.8 */ {
+  transform: translateX(10px);
+  opacity: 0;
+}
+
 </style>
 
-<script setup lang="ts">
+<script>
+export default {
+  name:"SelectionView",
+  components: {
+    ChooseButtons,
+    FilmResults,
+    CardDeck,
+  },
+  methods:{
+    beforeEnter(){
+      console.log("BeforeEnter")
+    },
+    enter(){
+      console.log("enter")
+    },
+    afterEnter(){
+      console.log("afterEnter")
+    },
+  }
+}
 import ChooseButtons from "@/components/ChooseButtons.vue";
 import FilmResults from "@/components/FilmResults.vue";
 import CardDeck from "@/components/CardDeck.vue";

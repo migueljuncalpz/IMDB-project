@@ -1,13 +1,17 @@
 <template>
-  <div class="logo">
-    <h1>Finger &#128293;</h1>
-  </div>
-  <div class="slogan">
-    <h3>The best film to view handpicked!</h3>
-  </div>
-  <div class="start">
-    <button class="start-button" @click="getStarted()" role="button">Let´s GO!</button>
-  </div>
+  <transition name="land-page">
+    <div class="land-page">
+      <div class="logo">
+        <h1>Finger &#128293;</h1>
+      </div>
+      <div class="slogan">
+        <h3>The best film to view handpicked!</h3>
+      </div>
+      <div class="start">
+        <button class="start-button" @click="getStarted()" role="button">Let´s GO!</button>
+      </div>
+    </div>
+  </transition>
 </template>
 
 <script>
@@ -18,7 +22,6 @@ export default{
         this.$router.push('/cardDeck')
     },
   }
-
 }
 </script>
 <style lang="scss">
@@ -63,5 +66,15 @@ $white-color: #98DFD6;
   :hover {
     box-shadow: none;
   }
+}
+/* Animation */
+.land-page-enter-active,
+.land-page-leave-active {
+  transition: all 0.5s ease;
+}
+.land-page-enter-from,
+.land-page-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
 }
 </style>

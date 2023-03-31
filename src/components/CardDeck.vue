@@ -1,15 +1,15 @@
 
 <template>
   <div class="wrap">
-    <SwipeCard v-for="(film,index) in this.films" :key="film.filmId"
-               v-bind:style="'z-index:'+ index"
-               :film-img="film.filmImg"
-               :film-name="film.name"
-               :year="film.year"
-               :film-synopsys="film.synopsys"
-               @swipeLeft="onSwipeLeft"
-               @swipeRight="onSwipeRight"
-    />
+      <SwipeCard v-for="(film,index) in this.films" :key="film.filmId"
+                 v-bind:style="'z-index:'+ index"
+                 :film-img="film.filmImg"
+                 :film-name="film.name"
+                 :year="film.year"
+                 :film-synopsys="film.synopsys"
+                 @swipeLeft="onSwipeLeft"
+                 @swipeRight="onSwipeRight"
+      />
   </div>
 </template>
 

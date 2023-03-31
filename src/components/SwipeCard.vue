@@ -4,8 +4,8 @@
                                          'transform': 'rotateY(' + this.degreesFront+ ')'}">
         <div class="film-rating">7.9</div>
         <div class="age-rating">+13</div>
-        <div class="film-title">{{this.filmName + this.year}}</div>
-        <div class="film-gender">gender</div>
+        <h3 class="film-title">{{this.filmName}}<br>{{this.year}}</h3>
+        <h5 class="film-gender">gender</h5>
         <button class="film-info-button" @click="changeToBack()">info</button>
       </div>
       <div onclick="" class="back" v-bind:style="{'transform': 'rotateY(' + this.degreesBack+ ')'}">
@@ -139,7 +139,6 @@ $orange: hsl(50,80%,50%);
   cursor: pointer;
   min-width: 300px;
   max-width: 400px;
-  min-height: 500px;
   max-height: 70vh;
   perspective: 1000px;
   margin: 1rem;
@@ -194,6 +193,7 @@ $orange: hsl(50,80%,50%);
   .film-title,.film-gender{
     border-radius: 1rem;
     background-color: black;
+    opacity: 0.7;
     padding: 0.5rem 0.5rem;
   }
   .film-rating{
