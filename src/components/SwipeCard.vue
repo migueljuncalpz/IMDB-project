@@ -116,8 +116,10 @@ export default {
         }else{
           this.dislikeOpacity= (Math.abs(this.x - this.startX)/this.horizontalThreshold)
         }
-        if(this.y-this.startY < 0){
+        if(this.y-this.startY < -30){
           this.superlikeOpacity= (Math.abs(this.y - this.startY)/this.verticalThreshold)
+        }else{
+          this.superlikeOpacity= 0
         }
       }
     },
