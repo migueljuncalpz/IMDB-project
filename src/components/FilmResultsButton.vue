@@ -20,16 +20,19 @@ $white-color: #98DFD6;
 .container{
   width: 100vw;
   display: flex;
+  position: sticky;
+  top: 0;
+  z-index: 999;
   justify-content: center;
 }
 .results-button{
   border-style: none;
   color: white;
   background-color: $dark-color;
-  width: fit-content;
   margin: 1rem 1rem;
   padding: 0.5rem 0.5rem;
   border-radius: 1rem;
+  box-shadow: 5px 5px 6px black;
   &:hover{
     cursor: pointer;
   }

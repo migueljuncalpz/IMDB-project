@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import FilterResults from "@/components/FilterResults.vue";
+import FilterResults from "@/components/FilterComponent.vue";
 
 export default {
   name: "ResultsVue",

@@ -1,7 +1,11 @@
 <template>
-  <transition name="card-disappear">
-    <div class="card" @touchstart="onTouchStart" @touchend="onSwipeEnd" @touchmove="onTouchMove"    @mousedown="onMouseDown" @mousemove="onMouseMove" @mouseup="onSwipeEnd"
-          :style="{ transform: 'translateX(' + (this.x-this.startX) + 'px)' }">
+    <div class="card" v-if="show" @touchstart="onTouchStart" @touchend="onSwipeEnd" @touchmove="onTouchMove"    @mousedown="onMouseDown" @mousemove="onMouseMove" @mouseup="onSwipeEnd"
+          :style="{ transform: 'translate(' + (this.x-this.startX) + 'px,' + (this.y-this.startY) +'px)'}"
+          :class="{ blur : blur}">
+      <div :style="{opacity:this.likeOpacity}" class="like-film">YES!</div>
+      <div :style="{opacity:this.dislikeOpacity}" class="dislike-film">NO!!</div>
+      <div :style="{opacity:this.superlikeOpacity}" class="superlike-film">LOVE IT!</div>
+
       <div class="front" v-bind:style="{ 'background-image': 'url(' + this.filmImg + ')' ,
                                           'transform': 'rotateY(' + this.degreesFront+ ')'}">
         <div class="film-rating">7.9</div>
@@ -26,7 +30,6 @@
         <button class="film-info-button" @click="changeToFront()">return</button>
       </div>
     </div>
-  </transition>
 </template>
 
 <script>
@@ -46,6 +49,14 @@ export default {
       type: Number,
       required: true,
     },
+    index: {
+      type: Number,
+      required: true,
+    },
+    show:{
+      type:Boolean,
+      required:true,
+    },
     filmSynopsys: {
       type: String,
       required: true,
@@ -56,9 +67,18 @@ export default {
     onSwipeRight: {
       type: Function,
     },
+    onSwipeUp: {
+      type: Function,
+    },
   },
   data() {
     return {
+      superlikeOpacity:0,
+      likeOpacity:0,
+      dislikeOpacity:0,
+      horizontalThreshold : 150,
+      verticalThreshold : 200,
+      currentIndex:0,
       selected:false,
       degreesFront: "0deg",
       degreesBack: "-180deg",
@@ -70,11 +90,19 @@ export default {
       swipeDirection: null
     };
   },
+  computed:{
+    blur: function(){
+      return this.currentIndex!==this.index
+    }
+  },
   methods: {
     onTouchStart(event) {
       this.dragging = true;
       this.startX = event.touches[0].clientX;
+      this.startY = event.touches[0].clientY;
       this.x=this.startX;
+      this.y=this.startY;
+
     },
     onTouchMove(event) {
       if (this.dragging) {
@@ -82,13 +110,22 @@ export default {
         const dy = event.touches[0].clientY - this.y;
         this.x += dx;
         this.y += dy;
+        if(this.x-this.startX > 0){
+          this.likeOpacity= (Math.abs(this.x - this.startX)/this.horizontalThreshold)
+
+        }else{
+          this.dislikeOpacity= (Math.abs(this.x - this.startX)/this.horizontalThreshold)
+        }
+        if(this.y-this.startY < 0){
+          this.superlikeOpacity= (Math.abs(this.y - this.startY)/this.verticalThreshold)
+        }
       }
     },
     onSwipeEnd(){
       this.dragging = false;
       const dx = this.x - this.startX;
-      const threshold = 150
-      if(Math.abs(dx)>=threshold){
+      const dy = this.y - this.startY;
+      if(Math.abs(dx)>=this.horizontalThreshold){
         if(dx>0){
           this.swipeDirection="right"
           this.onSwipeRight()
@@ -96,9 +133,19 @@ export default {
           this.swipeDirection="left"
           this.onSwipeLeft()
         }
+        this.currentIndex+=1;
+      }
+      if(Math.abs(dy)>=this.verticalThreshold){
+        if(dy<0){
+          this.swipeDirection="up"
+          this.onSwipeUp()
+        }
       }
       this.x=this.startX
       this.y=this.startY
+      this.likeOpacity=0
+      this.dislikeOpacity=0
+      this.superlikeOpacity=0
       // Trigger swipe event if necessary
       if (this.swipeDirection) {
         this.$emit("swipe", this.swipeDirection);
@@ -109,6 +156,8 @@ export default {
       this.startX = e.clientX;
       this.startY = e.clientY;
       this.x = this.startX
+      this.y = this.startY
+
     },
 
     onMouseMove(e) {
@@ -119,6 +168,15 @@ export default {
         const deltaY = this.currentY - this.y;
         this.x += deltaX
         this.y += deltaY
+
+        if(this.x-this.startX > 0){
+          this.likeOpacity= (Math.abs(this.x - this.startX)/this.horizontalThreshold)
+        }else{
+          this.dislikeOpacity= (Math.abs(this.x - this.startX)/this.horizontalThreshold)
+        }
+        if(this.y-this.startY < 0){
+          this.superlikeOpacity= (Math.abs(this.y - this.startY)/this.verticalThreshold)
+        }
       }
     },
     changeToBack(){
@@ -146,6 +204,9 @@ $white-color: #98DFD6;
   }
 }
 
+.blur{
+  filter: blur(4px);
+}
 .card {
   color: inherit;
   cursor: pointer;
@@ -157,6 +218,36 @@ $white-color: #98DFD6;
   grid-row-start: 1;
   grid-column-start: 1;
   justify-self: center;
+
+  .like-film,.dislike-film,.superlike-film{
+    color:black;
+    position: absolute;
+    z-index: 999;
+    backdrop-filter: blur(3px);
+    background-color: rgba(255,255,255,0.6);
+    top:4rem;
+    font-size: 4rem;
+    font-weight: 900;
+    border-style: solid;
+    border-radius: 1rem;
+    border-width: 5px;
+  }
+  .like-film{
+    color: green;
+    right: 3rem;
+    transform: rotateZ(30deg);
+  }
+  .dislike-film{
+    color: red;
+    left: 3rem;
+    transform: rotateZ(-30deg);
+  }
+  .superlike-film{
+    color:dodgerblue;
+    top:50%;
+    left:0;
+    right: 0;
+  }
 }
 .front,
 .back {
@@ -235,13 +326,4 @@ $white-color: #98DFD6;
   color: black;
 }
 
-.card-disappear-enter-active,
-.card-disappear-leave-active {
-  transition: opacity 0.5s ease;
-}
-
-.card-disappear-enter,
-.card-disappear-leave-to {
-  opacity: 0;
-}
 </style>

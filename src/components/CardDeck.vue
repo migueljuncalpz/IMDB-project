@@ -2,13 +2,16 @@
 <template>
   <div class="wrap">
       <SwipeCard v-for="(film,index) in this.films" :key="film.filmId"
-                 v-bind:style="'z-index:'+ index"
+                 v-bind:style="{'z-index': (this.films.length-index)-1}"
                  :film-img="film.filmImg"
                  :film-name="film.name"
+                 :show="true"
                  :year="film.year"
                  :film-synopsys="film.synopsys"
+                 :index= (index)
                  @swipeLeft="onSwipeLeft"
                  @swipeRight="onSwipeRight"
+                 @swipeUp="onSwipeUp"
       />
   </div>
 </template>
@@ -56,12 +59,16 @@ export default {
   },
   methods: {
     onSwipeLeft() {
-      this.films.pop()
+      this.films.shift()
       console.log('Swiped left');
     },
     onSwipeRight() {
-      this.films.pop()
+      this.films.shift()
       console.log('Swiped right');
+    },
+    onSwipeUp() {
+      this.films.shift()
+      console.log('Swiped up');
     },
   },
 };
@@ -78,6 +85,9 @@ $white-color: #98DFD6;
   justify-content: center;
   display: grid;
   grid-template-columns: 1fr;
-  height: 80vh;
+  height: 75vh;
 }
+
+
+
 </style>

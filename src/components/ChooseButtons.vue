@@ -26,14 +26,16 @@ export default {
   height: fit-content;
   display: flex;
   width: 60vw;
-  justify-content: space-around;
-  align-items: flex-end;
-  padding: 1rem 1rem;
+  justify-content: center;
+  margin-inside: 1rem;
   button{
+    margin-left: 1rem;
     border: 0;
     border-radius: 5rem;
-    font-size: 2rem;
-    padding: 0.5em 0.6em;
+    font-size: 1.5rem;
+    padding: 0.4em 0.5em;
+    box-shadow: 5px 5px 6px rosybrown;
+
     &:hover{
       cursor: pointer;
     }
