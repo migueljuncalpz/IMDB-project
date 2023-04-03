@@ -135,11 +135,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$primary: rgb(0, 0, 1);
-$primary-light: hsl(222,50%,95%);
-$secondary: hsl(350,80%,50%);
-$red: hsl(10,80%,50%);
-$orange: hsl(50,80%,50%);
+$dark-color: #1a1e24;
+$rose-color: #D9247B;
+$bone-color: #E4DCCF;
+$white-color: #98DFD6;
 
 @mixin mobile ($size: 640px) {
   @media screen and (max-width: $size) {
@@ -200,7 +199,7 @@ $orange: hsl(50,80%,50%);
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(135deg, adjust-hue($primary, -20deg), $primary);
+    background: linear-gradient(135deg, adjust-hue($dark-color, -20deg), $dark-color);
     opacity: .25;
   }
   .film-title,.film-gender{
@@ -210,9 +209,10 @@ $orange: hsl(50,80%,50%);
     padding: 0.5rem 0.5rem;
   }
   .film-rating{
+    color:$dark-color;
     position: absolute;
     margin: 1rem 1rem;
-    background-color: orangered;
+    background-color: yellow;
     border-radius: 4rem;
     padding: .5rem 0.5rem;
     left: 0;

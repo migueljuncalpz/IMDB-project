@@ -68,6 +68,12 @@ export default {
 </script>
 
 <style lang="scss">
+$dark-color: #1a1e24;
+$rose-color: #D9247B;
+$bone-color: #E4DCCF;
+$white-color: #98DFD6;
+
+
 .wrap{
   justify-content: center;
   display: grid;

@@ -25,8 +25,8 @@ export default{
 }
 </script>
 <style lang="scss">
-$dark-color: #002B5B;
-$red-color: #EA5455;
+$dark-color: #1a1e24;
+$rose-color: #D9247B;
 $bone-color: #E4DCCF;
 $white-color: #98DFD6;
 

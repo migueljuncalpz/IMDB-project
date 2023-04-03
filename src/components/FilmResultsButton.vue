@@ -11,6 +11,12 @@ export default {
 </script>
 
 <style scoped lang="scss">
+$dark-color: #1a1e24;
+$rose-color: #D9247B;
+$bone-color: #E4DCCF;
+$white-color: #98DFD6;
+
+
 .container{
   width: 100vw;
   display: flex;
@@ -19,7 +25,7 @@ export default {
 .results-button{
   border-style: none;
   color: white;
-  background-color: black;
+  background-color: $dark-color;
   width: fit-content;
   margin: 1rem 1rem;
   padding: 0.5rem 0.5rem;

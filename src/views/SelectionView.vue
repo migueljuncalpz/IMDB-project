@@ -49,11 +49,11 @@ export default {
   },
   methods:{
     getResults(){
-      this.$router.push("/")
+      this.$router.push("/results")
     }
   }
 }
 import ChooseButtons from "@/components/ChooseButtons.vue";
-import FilmResults from "@/components/FilmResults.vue";
+import FilmResults from "@/components/FilmResultsButton.vue";
 import CardDeck from "@/components/CardDeck.vue";
 </script>
