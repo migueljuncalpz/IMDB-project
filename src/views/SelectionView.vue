@@ -1,7 +1,7 @@
 
 <template>
   <div class="selection-view">
-    <FilmResults></FilmResults>
+    <FilmResults @click="getResults" ></FilmResults>
     <CardDeck></CardDeck>
     <ChooseButtons></ChooseButtons>
   </div>
@@ -48,15 +48,9 @@ export default {
     CardDeck,
   },
   methods:{
-    beforeEnter(){
-      console.log("BeforeEnter")
-    },
-    enter(){
-      console.log("enter")
-    },
-    afterEnter(){
-      console.log("afterEnter")
-    },
+    getResults(){
+      this.$router.push("/")
+    }
   }
 }
 import ChooseButtons from "@/components/ChooseButtons.vue";

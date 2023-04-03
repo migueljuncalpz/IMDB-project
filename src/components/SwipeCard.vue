@@ -1,7 +1,9 @@
 <template>
-    <div class="card" @touchstart="onTouchStart" @touchend="onTouchEnd" @touchmove="onTouchMove" :style="{ transform: 'translateX(' + (this.x-this.startX) + 'px)' }">
+  <transition name="card-disappear">
+    <div class="card" @touchstart="onTouchStart" @touchend="onSwipeEnd" @touchmove="onTouchMove"    @mousedown="onMouseDown" @mousemove="onMouseMove" @mouseup="onSwipeEnd"
+          :style="{ transform: 'translateX(' + (this.x-this.startX) + 'px)' }">
       <div class="front" v-bind:style="{ 'background-image': 'url(' + this.filmImg + ')' ,
-                                         'transform': 'rotateY(' + this.degreesFront+ ')'}">
+                                          'transform': 'rotateY(' + this.degreesFront+ ')'}">
         <div class="film-rating">7.9</div>
         <div class="age-rating">+13</div>
         <h3 class="film-title">{{this.filmName}}<br>{{this.year}}</h3>
@@ -24,6 +26,7 @@
         <button class="film-info-button" @click="changeToFront()">return</button>
       </div>
     </div>
+  </transition>
 </template>
 
 <script>
@@ -49,15 +52,14 @@ export default {
     },
     onSwipeLeft: {
       type: Function,
-      default: () => {},
     },
     onSwipeRight: {
       type: Function,
-      default: () => {},
     },
   },
   data() {
     return {
+      selected:false,
       degreesFront: "0deg",
       degreesBack: "-180deg",
       x: 0,
@@ -70,26 +72,21 @@ export default {
   },
   methods: {
     onTouchStart(event) {
-      console.log("start")
       this.dragging = true;
       this.startX = event.touches[0].clientX;
       this.x=this.startX;
     },
     onTouchMove(event) {
-      console.log("move")
       if (this.dragging) {
         const dx = event.touches[0].clientX - this.x;
         const dy = event.touches[0].clientY - this.y;
         this.x += dx;
         this.y += dy;
-        console.log(this.x)
       }
     },
-    onTouchEnd(){
+    onSwipeEnd(){
       this.dragging = false;
-      // Calculate swipe direction
       const dx = this.x - this.startX;
-      //const dy = this.y - this.startY;
       const threshold = 150
       if(Math.abs(dx)>=threshold){
         if(dx>0){
@@ -107,7 +104,23 @@ export default {
         this.$emit("swipe", this.swipeDirection);
       }
     },
+    onMouseDown(e){
+      this.dragging=true
+      this.startX = e.clientX;
+      this.startY = e.clientY;
+      this.x = this.startX
+    },
 
+    onMouseMove(e) {
+      if (this.dragging){
+        this.currentX = e.clientX;
+        this.currentY = e.clientY;
+        const deltaX = this.currentX - this.x;
+        const deltaY = this.currentY - this.y;
+        this.x += deltaX
+        this.y += deltaY
+      }
+    },
     changeToBack(){
       this.degreesFront= "180deg"
       this.degreesBack= "0deg"
@@ -220,5 +233,15 @@ $orange: hsl(50,80%,50%);
   transform: rotateY(-180deg);
   padding: 0 2em;
   color: black;
+}
+
+.card-disappear-enter-active,
+.card-disappear-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.card-disappear-enter,
+.card-disappear-leave-to {
+  opacity: 0;
 }
 </style>

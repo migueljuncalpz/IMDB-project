@@ -1,6 +1,6 @@
 <template>
 <div class="container">
-  <div class="results-button">0 films found</div>
+  <button class="results-button">0 films found</button>
 </div>
 </template>
 
@@ -17,6 +17,8 @@ export default {
   justify-content: center;
 }
 .results-button{
+  border-style: none;
+  color: white;
   background-color: black;
   width: fit-content;
   margin: 1rem 1rem;
