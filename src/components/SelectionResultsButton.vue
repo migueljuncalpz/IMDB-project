@@ -1,13 +1,18 @@
 <template>
 <div class="container">
-  <button class="results-button">0 films found</button>
+  <button class="results-button">0 {{props.resultsType}} found</button>
 </div>
 </template>
 
-<script>
-export default {
-  name: "FilmResults"
-}
+<script setup>
+
+const props= defineProps({
+  resultsType:{
+    type:String,
+    required:true
+  }
+})
+
 </script>
 
 <style scoped lang="scss">

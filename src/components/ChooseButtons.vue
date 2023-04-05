@@ -2,6 +2,7 @@
   <div class="container">
     <div class="button-menu">
       <button>&#10060;</button>
+      <button>&#129335;</button>
       <button>&#127775;</button>
       <button>&#128525;</button>
     </div>

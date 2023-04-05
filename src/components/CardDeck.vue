@@ -4,7 +4,7 @@
                v-bind:style="{'z-index': (films.length-index)-1}"
                :filmInfo="film"
                :show="true"
-               :index=(index)
+               :index=index
                @swipeLeft="onSwipeLeft"
                @swipeRight="onSwipeRight"
                @swipeUp="onSwipeUp"
@@ -39,7 +39,6 @@ $dark-color: #1a1e24;
 $rose-color: #D9247B;
 $bone-color: #E4DCCF;
 $white-color: #98DFD6;
-
 
 .wrap {
   justify-content: center;
