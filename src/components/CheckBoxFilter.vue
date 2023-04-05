@@ -1,25 +1,44 @@
 <template>
-  <fieldset>
-    <legend>CHOOSE GENDER</legend>
-    <input type="checkbox" name="gender" id="noneGender" v-on:change="setGenderFilter" v-model="gender" value="">
-    <label for="noneGender">NONE</label>
-    <input type="checkbox" name="gender" id="male" v-on:change="setGenderFilter" v-model="gender" value="male">
-    <label for="male">MALE</label>
-    <input type="checkbox" name="gender" id="female" v-on:change="setGenderFilter" v-model="gender" value="female">
-    <label for="female">FEMALE</label>
-    <input type="checkbox" name="gender" id="unknownGender" v-on:change="setGenderFilter" v-model="gender" value="unknown">
-    <label for="unknownGender">UNKNOWN</label>
+  <fieldset v-if="content!==null">
+    <legend>{{this.content.legend}}</legend>
+    <div class="content" v-for="input in content.inputLabels" :key="input">
+      <input :type="this.content.type" :name="input.input.name" :id="input.input.id">
+      <label :for="input.label.for">{{input.label.text}}</label>
+    </div>
   </fieldset>
 </template>
 
-<script>
-export default {
-  name: "CheckBoxFilter"
+
+<script setup lang="ts">
+import {type PropType } from 'vue'
+
+interface InputLabel{
+  input:{
+    name:String,
+    id:String,
+    value:String
+  },
+  label:{
+    for:String,
+    text:String
+  }
 }
+export interface Content{
+  legend:String,
+  type:String,
+  inputLabels: Array<InputLabel>
+}
+defineProps({
+    content:{
+      type: Object as PropType<Content>,
+      required:false,
+      default:()=>null,
+    }
+})
+
 </script>
 
 <style lang="scss" scoped>
-
 fieldset{
   width: auto;
   display: flex;
@@ -29,11 +48,15 @@ fieldset{
   label {
     margin-left: 1em;
     display: inline-block;
+    &:hover{
+      cursor: pointer;
+    }
   }
   input[type="checkbox"] {
     display:none;
     &:checked + label {
-      font-weight: bold;
+      font-weight: 900;
+      font-style: italic;
     }
   }
   legend{

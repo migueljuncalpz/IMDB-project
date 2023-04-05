@@ -1,197 +1,197 @@
 <template>
-    <div class="card" v-if="show" @touchstart="onTouchStart" @touchend="onSwipeEnd" @touchmove="onTouchMove"    @mousedown="onMouseDown" @mousemove="onMouseMove" @mouseup="onSwipeEnd"
-          :style="{ transform: 'translate(' + (this.x-this.startX) + 'px,' + (this.y-this.startY) +'px)'}"
-          :class="{ blur : blur}">
-      <div :style="{opacity:this.likeOpacity}" class="like-film">YES!</div>
-      <div :style="{opacity:this.dislikeOpacity}" class="dislike-film">NO!!</div>
-      <div :style="{opacity:this.superlikeOpacity}" class="superlike-film">LOVE IT!</div>
+  <div class="card" v-if="show" @touchstart="onTouchStart" @touchend="onSwipeEnd" @touchmove="onTouchMove"
+       @mousedown="onMouseDown" @mousemove="onMouseMove" @mouseup="onSwipeEnd"
+       :style="{ transform: 'translate(' + translateX + 'px,' + translateY +'px)'}"
+       :class="{ blur : blur}">
+    <div :style="{opacity:likeOpacity}" class="like-film">YES!</div>
+    <div :style="{opacity:dislikeOpacity}" class="dislike-film">NO!!</div>
+    <div :style="{opacity:superlikeOpacity}" class="superlike-film">LOVE IT!</div>
 
-      <div class="front" v-bind:style="{ 'background-image': 'url(' + this.filmImg + ')' ,
-                                          'transform': 'rotateY(' + this.degreesFront+ ')'}">
-        <div class="film-rating">7.9</div>
-        <div class="age-rating">+13</div>
-        <h3 class="film-title">{{this.filmName}}<br>{{this.year}}</h3>
-        <h5 class="film-gender">gender</h5>
-        <button class="film-info-button" @click="changeToBack()">info</button>
-      </div>
-      <div onclick="" class="back" v-bind:style="{'transform': 'rotateY(' + this.degreesBack+ ')'}">
-        <div class="film-synopsis">
-          <h3>Synopsis</h3>
-          <h4>{{this.filmSynopsys}}</h4>
-        </div>
-        <div class="film-cast">
-          <h3>Cast</h3>
-          <h4>insert text here</h4>
-        </div>
-        <div class="film-director">
-          <h3>Director</h3>
-          <h4>insert text here</h4>
-        </div>
-        <button class="film-info-button" @click="changeToFront()">return</button>
-      </div>
+    <div class="front" v-bind:style="{ 'background-image': 'url(' + props.filmInfo.filmImage + ')' ,
+                                          'transform': 'rotateY(' + degreesFront+ ')'}">
+      <div class="film-rating">{{props.filmInfo.valueRating}}</div>
+      <div class="age-rating">{{props.filmInfo.ageRating}}</div>
+      <h3 class="film-title">{{ props.filmInfo.name }}<br>{{ props.filmInfo.year }}</h3>
+      <h5 class="film-gender">{{props.filmInfo.gender}}</h5>
+      <button class="film-info-button" @click="changeToBack()">info</button>
     </div>
+    <div onclick="" class="back" v-bind:style="{'transform': 'rotateY(' + degreesBack+ ')'}">
+      <div class="film-synopsis">
+        <h3>Synopsis</h3>
+        <h4>{{ props.filmInfo.synopsys }}</h4>
+      </div>
+      <div class="film-cast">
+        <h3>Cast</h3>
+        <h4>{{props.filmInfo.cast}}</h4>
+      </div>
+      <div class="film-director">
+        <h3>Director</h3>
+        <h4>insert text here</h4>
+      </div>
+      <button class="film-info-button" @click="changeToFront()">return</button>
+    </div>
+  </div>
 </template>
 
-<script>
+<script setup lang="ts">
 
-export default {
-  name: 'SwipeCard',
-  props: {
-    filmImg: {
-      type: String,
-      required: true,
-    },
-    filmName: {
-      type: String,
-      required: true,
-    },
-    year: {
-      type: Number,
-      required: true,
-    },
-    index: {
-      type: Number,
-      required: true,
-    },
-    show:{
-      type:Boolean,
-      required:true,
-    },
-    filmSynopsys: {
-      type: String,
-      required: true,
-    },
-    onSwipeLeft: {
-      type: Function,
-    },
-    onSwipeRight: {
-      type: Function,
-    },
-    onSwipeUp: {
-      type: Function,
-    },
+import type {FilmInfo} from "@/stores/FilmStore";
+import {computed, ref} from "vue";
+
+const props = defineProps({
+  filmInfo: {
+    type: Object as ()=> FilmInfo,
+    required: true,
   },
-  data() {
-    return {
-      superlikeOpacity:0,
-      likeOpacity:0,
-      dislikeOpacity:0,
-      horizontalThreshold : 150,
-      verticalThreshold : 200,
-      currentIndex:0,
-      selected:false,
-      degreesFront: "0deg",
-      degreesBack: "-180deg",
-      x: 0,
-      y: 0,
-      startX:0,
-      startY:0,
-      dragging: false,
-      swipeDirection: null
-    };
+  index: {
+    type: Number,
+    required: true,
   },
-  computed:{
-    blur: function(){
-      return this.currentIndex!==this.index
+  show: {
+    type: Boolean,
+    required: true,
+  },
+  onSwipeLeft: {
+    type: Function,
+    required:true,
+  },
+  onSwipeRight: {
+    type: Function,
+    required:true,
+
+  },
+  onSwipeUp: {
+    type: Function,
+    required:true,
+  },
+})
+
+let superlikeOpacity = 0;
+let likeOpacity = 0;
+let dislikeOpacity = 0;
+const horizontalThreshold = 150;
+const verticalThreshold = 200;
+let currentIndex = 0;
+
+let x = 0;
+let y = 0;
+let startX = 0;
+let startY = 0;
+let dragging = false;
+let currentX = 0;
+let currentY = 0;
+
+let degreesFront = ref("0deg");
+let degreesBack = ref("-180deg");
+const translateX = ref(0);
+const translateY = ref(0);
+
+const blur = computed({
+  get() {
+    return currentIndex !== props.index
+  },
+  set() {
+  }
+})
+
+function translation() {
+  translateX.value = x - startX
+  translateY.value = y - startY
+}
+
+function onTouchStart(event: any) {
+  dragging = true;
+  startX = event.touches[0].clientX;
+  startY = event.touches[0].clientY;
+  x = startX;
+  y = startY;
+}
+
+function onTouchMove(event: any) {
+  if (dragging) {
+    const dx = event.touches[0].clientX - x;
+    const dy = event.touches[0].clientY - y;
+    x += dx;
+    y += dy;
+    if (x - startX > 0) {
+      likeOpacity = (Math.abs(x - startX) / horizontalThreshold)
+    } else {
+      dislikeOpacity = (Math.abs(x - startX) / horizontalThreshold)
     }
-  },
-  methods: {
-    onTouchStart(event) {
-      this.dragging = true;
-      this.startX = event.touches[0].clientX;
-      this.startY = event.touches[0].clientY;
-      this.x=this.startX;
-      this.y=this.startY;
-
-    },
-    onTouchMove(event) {
-      if (this.dragging) {
-        const dx = event.touches[0].clientX - this.x;
-        const dy = event.touches[0].clientY - this.y;
-        this.x += dx;
-        this.y += dy;
-        if(this.x-this.startX > 0){
-          this.likeOpacity= (Math.abs(this.x - this.startX)/this.horizontalThreshold)
-
-        }else{
-          this.dislikeOpacity= (Math.abs(this.x - this.startX)/this.horizontalThreshold)
-        }
-        if(this.y-this.startY < -30){
-          this.superlikeOpacity= (Math.abs(this.y - this.startY)/this.verticalThreshold)
-        }else{
-          this.superlikeOpacity= 0
-        }
-      }
-    },
-    onSwipeEnd(){
-      this.dragging = false;
-      const dx = this.x - this.startX;
-      const dy = this.y - this.startY;
-      if(Math.abs(dx)>=this.horizontalThreshold){
-        if(dx>0){
-          this.swipeDirection="right"
-          this.onSwipeRight()
-        }else{
-          this.swipeDirection="left"
-          this.onSwipeLeft()
-        }
-        this.currentIndex+=1;
-      }
-      if(Math.abs(dy)>=this.verticalThreshold){
-        if(dy<0){
-          this.swipeDirection="up"
-          this.onSwipeUp()
-        }
-      }
-      this.x=this.startX
-      this.y=this.startY
-      this.likeOpacity=0
-      this.dislikeOpacity=0
-      this.superlikeOpacity=0
-      // Trigger swipe event if necessary
-      if (this.swipeDirection) {
-        this.$emit("swipe", this.swipeDirection);
-      }
-    },
-    onMouseDown(e){
-      this.dragging=true
-      this.startX = e.clientX;
-      this.startY = e.clientY;
-      this.x = this.startX
-      this.y = this.startY
-
-    },
-
-    onMouseMove(e) {
-      if (this.dragging){
-        this.currentX = e.clientX;
-        this.currentY = e.clientY;
-        const deltaX = this.currentX - this.x;
-        const deltaY = this.currentY - this.y;
-        this.x += deltaX
-        this.y += deltaY
-
-        if(this.x-this.startX > 0){
-          this.likeOpacity= (Math.abs(this.x - this.startX)/this.horizontalThreshold)
-        }else{
-          this.dislikeOpacity= (Math.abs(this.x - this.startX)/this.horizontalThreshold)
-        }
-        if(this.y-this.startY < 0){
-          this.superlikeOpacity= (Math.abs(this.y - this.startY)/this.verticalThreshold)
-        }
-      }
-    },
-    changeToBack(){
-      this.degreesFront= "180deg"
-      this.degreesBack= "0deg"
-    },
-    changeToFront(){
-      this.degreesFront= "0deg"
-      this.degreesBack= "-180deg"
-
+    if (y - startY < -30) {
+      superlikeOpacity = (Math.abs(y - startY) / verticalThreshold)
+    } else {
+      superlikeOpacity = 0
     }
-  },
-};
+    translation()
+  }
+}
+
+function onSwipeEnd() {
+  dragging = false;
+  const dx = x - startX;
+  const dy = y - startY;
+  if (Math.abs(dx) >= horizontalThreshold) {
+    if (dx > 0) {
+      props.onSwipeRight();
+    } else {
+      props.onSwipeLeft();
+    }
+    currentIndex += 1;
+  }
+  if (Math.abs(dy) >= verticalThreshold) {
+    if (dy < 0) {
+      props.onSwipeUp();
+    }
+  }
+  x = startX
+  y = startY
+  likeOpacity = 0
+  dislikeOpacity = 0
+  superlikeOpacity = 0
+  translation()
+}
+
+function onMouseDown(e: any) {
+  dragging = true
+  startX = e.clientX;
+  startY = e.clientY;
+  x = startX
+  y = startY
+
+}
+
+function onMouseMove(e: any) {
+  if (dragging) {
+    currentX = e.clientX;
+    currentY = e.clientY;
+    const deltaX = currentX - x;
+    const deltaY = currentY - y;
+    x += deltaX
+    y += deltaY
+
+    if (x - startX > 0) {
+      likeOpacity = (Math.abs(x - startX) / horizontalThreshold)
+    } else {
+      dislikeOpacity = (Math.abs(x - startX) / horizontalThreshold)
+    }
+    if (y - startY < 0) {
+      superlikeOpacity = (Math.abs(y - startY) / verticalThreshold)
+    }
+    translation()
+  }
+}
+
+function changeToBack() {
+  degreesFront.value = "180deg"
+  degreesBack.value = "0deg"
+}
+
+function changeToFront() {
+  degreesFront.value = "0deg"
+  degreesBack.value = "-180deg"
+}
+
 </script>
 
 <style lang="scss" scoped>
@@ -200,15 +200,16 @@ $rose-color: #D9247B;
 $bone-color: #E4DCCF;
 $white-color: #98DFD6;
 
-@mixin mobile ($size: 640px) {
+@mixin mobile($size: 640px) {
   @media screen and (max-width: $size) {
     @content;
   }
 }
 
-.blur{
+.blur {
   filter: blur(4px);
 }
+
 .card {
   color: inherit;
   cursor: pointer;
@@ -220,37 +221,42 @@ $white-color: #98DFD6;
   grid-row-start: 1;
   grid-column-start: 1;
   justify-self: center;
+  transform: translate(v-bind(x));
 
-  .like-film,.dislike-film,.superlike-film{
-    color:black;
+  .like-film, .dislike-film, .superlike-film {
+    color: black;
     position: absolute;
     z-index: 999;
     backdrop-filter: blur(3px);
-    background-color: rgba(255,255,255,0.6);
-    top:4rem;
+    background-color: rgba(255, 255, 255, 0.6);
+    top: 4rem;
     font-size: 4rem;
     font-weight: 900;
     border-style: solid;
     border-radius: 1rem;
     border-width: 5px;
   }
-  .like-film{
+
+  .like-film {
     color: green;
     right: 3rem;
     transform: rotateZ(30deg);
   }
-  .dislike-film{
+
+  .dislike-film {
     color: red;
     left: 3rem;
     transform: rotateZ(-30deg);
   }
-  .superlike-film{
-    color:dodgerblue;
-    top:50%;
-    left:0;
+
+  .superlike-film {
+    color: dodgerblue;
+    top: 50%;
+    left: 0;
     right: 0;
   }
 }
+
 .front,
 .back {
   display: grid;
@@ -268,15 +274,20 @@ $white-color: #98DFD6;
   transition: ease-in-out 600ms;
   overflow: hidden;
 
-  .film-info-button{
+  .film-info-button {
     position: absolute;
     margin: 1rem 1rem;
     bottom: 0;
-    border:none;
+    border: none;
     border-radius: 1rem;
     padding: 0.5rem;
+
+    &:hover{
+      cursor: pointer;
+    }
   }
 }
+
 .front {
   background-size: cover;
   background-blend-mode: overlay;
@@ -285,6 +296,7 @@ $white-color: #98DFD6;
   font-weight: 600;
   color: #fff;
   overflow: hidden;
+
   &:before {
     position: absolute;
     display: block;
@@ -295,32 +307,36 @@ $white-color: #98DFD6;
     background: linear-gradient(135deg, adjust-hue($dark-color, -20deg), $dark-color);
     opacity: .25;
   }
-  .film-title,.film-gender{
+
+  .film-title, .film-gender {
     border-radius: 1rem;
     background-color: black;
     opacity: 0.7;
     padding: 0.5rem 0.5rem;
   }
-  .film-rating{
-    color:$dark-color;
+
+  .film-rating {
+    color: $dark-color;
     position: absolute;
     margin: 1rem 1rem;
     background-color: yellow;
     border-radius: 4rem;
     padding: .5rem 0.5rem;
     left: 0;
-    top:0;
+    top: 0;
   }
-  .age-rating{
+
+  .age-rating {
     position: absolute;
     margin: 1rem 1rem;
     background-color: orangered;
     border-radius: 4rem;
     padding: .5rem 0.5rem;
     right: 0;
-    top:0;
+    top: 0;
   }
 }
+
 .back {
   background: #fff;
   transform: rotateY(-180deg);

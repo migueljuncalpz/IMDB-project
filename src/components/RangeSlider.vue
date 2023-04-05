@@ -4,7 +4,7 @@
     <div class='range-slider'>
       <div class="numbers-container">
         <input type="number" min="0" max="180" step="1" v-model="sliderMin">
-        <input type="number" min="0" max="180" step="1" placeholder="min" v-model="sliderMax">
+        <input type="number" min="0" max="180" step="1" v-model="sliderMax">
       </div>
       <input type="range" min="0" max="180" step="1" v-model="sliderMin">
       <input type="range" min="0" max="180" step="1" v-model="sliderMax">

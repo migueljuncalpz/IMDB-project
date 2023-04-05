@@ -5,7 +5,7 @@
   <transition name="blind">
     <div class="filters-container"  v-if="clicked">
       <div class="filter">
-        <CheckBoxFilter></CheckBoxFilter>
+        <CheckBoxFilter :content="inputLabels"></CheckBoxFilter>
       </div>
       <hr>
       <div class="filter">
@@ -27,7 +27,25 @@ export default {
       clicked:false,
       buttonText:"Filters",
       minAngle: 10,
-      maxAngle: 30
+      maxAngle: 30,
+
+      inputLabels:{
+        legend:"Choose gender",
+        type:"checkbox",
+        inputLabels:[
+          {
+            input:{
+              name:"drama",
+              id:"drama",
+              value:"Drama"
+            },
+            label:{
+              for:"drama",
+              text:"Drama"
+            }
+          }
+        ],
+      },
     }
   },
   components:{
