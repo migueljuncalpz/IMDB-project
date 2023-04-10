@@ -1,18 +1,22 @@
 <template>
   <div class="container">
     <div class="button-menu">
-      <button class="dislike-button">&#10060;</button>
-      <button class="unwatch-button">&#129335;</button>
-      <button class="super-like-button">&#127775;</button>
-      <button class="like-button">&#128525;</button>
+      <button class="dislike-button" @click="store.postDislike()">&#10060;</button>
+      <button class="unwatch-button"  @click="store.postUnwatch()">&#129335;</button>
+      <button class="super-like-button"  @click="store.postSuperLike()">&#127775;</button>
+      <button class="like-button"  @click="store.postLike()">&#128525;</button>
     </div>
   </div>
 </template>
 
-<script>
-export default {
-  name: "ChooseButtons.vue"
+<script setup>
+import {useFilmStore} from "@/stores/FilmStore";
+const store = useFilmStore()
+
+function likeEvent(){
+    this.$emit('likeEvent');
 }
+
 </script>
 
 <style scoped lang="scss">

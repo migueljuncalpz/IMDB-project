@@ -1,5 +1,5 @@
 <template>
-  <div class="card" v-if="show" @touchstart="onTouchStart" @touchend="onSwipeEnd" @touchmove="onTouchMove"
+  <div class="card" @touchstart="onTouchStart" @touchend="onSwipeEnd" @touchmove="onTouchMove"
        @mousedown="onMouseDown" @mousemove="onMouseMove" @mouseup="onSwipeEnd"
        :style="{ transform: 'translate(' + translateX + 'px,' + translateY +'px)'}"
        :class="{ blur : blur}">
@@ -45,10 +45,6 @@ const props = defineProps({
   },
   index: {
     type: Number,
-    required: true,
-  },
-  show: {
-    type: Boolean,
     required: true,
   },
   onSwipeLeft: {
@@ -158,9 +154,24 @@ function onMouseDown(e: any) {
   startY = e.clientY;
   x = startX
   y = startY
-
 }
 
+function animateXPosition(targetX:number, duration:number) {
+    const distanceX = startX + targetX;
+    const startTime = Date.now();
+    const endTime = startTime + duration;
+    function updatePosition() {
+        const currentTime = Date.now();
+        const elapsed = Math.min(duration, currentTime - startTime);
+        const progress = elapsed / duration;
+        translateX.value = startX + distanceX * progress;
+        if (currentTime < endTime) {
+            requestAnimationFrame(updatePosition);
+        }
+    }
+
+    requestAnimationFrame(updatePosition);
+}
 function onMouseMove(e: any) {
   if (dragging) {
     currentX = e.clientX;

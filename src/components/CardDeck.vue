@@ -1,9 +1,8 @@
 <template>
   <div class="wrap">
-    <SwipeCard v-for="(film,index) in films" :key="film.filmId"
+    <SwipeCard v-for="(film,index) in store.getFilmsList" :key="film.filmId"
                v-bind:style="{'z-index': (films.length-index)-1}"
                :filmInfo="film"
-               :show="true"
                :index=index
                @swipeLeft="onSwipeLeft"
                @swipeRight="onSwipeRight"
@@ -23,13 +22,13 @@ const store = useFilmStore()
 let films = store.getFilmsList
 
 const onSwipeLeft = () => {
-  films.shift()
+  store.postDislike()
 }
 const onSwipeRight = () => {
-  films.shift()
+  store.postLike()
 }
 const onSwipeUp = () => {
-  films.shift()
+  store.postSuperLike()
 }
 
 </script>

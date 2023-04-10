@@ -57,6 +57,30 @@ export const useFilmStore = defineStore('film', {
     getters: {
         getFilmsList: (state:State) => state.filmsList,
     },
+    actions:{
+        postLike(){
+            //POST LIKE TO API
+            console.log("like")
+            this.filmsList.shift()
+        },
+        postDislike(){
+            //POST DISLIKE TO API
+            console.log("dislike")
+            this.filmsList.shift()
+
+        },
+        postSuperLike(){
+            //POST SUPERLIKE TO API
+            console.log("super")
+            this.filmsList.shift()
+        },
+        postUnwatch(){
+            //POST UNWATCHED TO API
+            console.log("No watch")
+            this.filmsList.shift()
+
+        }
+    }
 })
 
 export interface FilmInfo {

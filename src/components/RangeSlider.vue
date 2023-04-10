@@ -1,6 +1,6 @@
 <template>
   <fieldset>
-    <legend> Duration (Min)</legend>
+    <legend>Duration (Min)</legend>
     <div class='range-slider'>
       <div class="numbers-container">
         <input type="number" min="0" max="180" step="1" v-model="sliderMin">
@@ -58,14 +58,11 @@ $rose-color: #D9247B;
 $bone-color: #E4DCCF;
 $white-color: #98DFD6;
 
-
 .range-slider {
-  width: 100%;
   margin: auto;
   text-align: center;
   position: relative;
   height: 2em;
-
   .numbers-container{
     display: flex;
     justify-content: space-between;

@@ -1,10 +1,12 @@
 <template>
-  <fieldset v-if="content!==null">
-    <legend>{{this.content.legend}}</legend>
-    <div class="content" v-for="input in content.inputLabels" :key="input">
-      <input :type="this.content.type" :name="input.input.name" :id="input.input.id">
-      <label :for="input.label.for">{{input.label.text}}</label>
-    </div>
+  <fieldset>
+    <legend>{{$props.content.legend}}</legend>
+      <div class="wrap">
+          <div class="content" v-for="(input,key) in $props.content.inputLabels" :key="key">
+              <input :type="$props.content.type" :name="input.input.name" :id="input.input.id" :value="input.input.value">
+              <label :for="input.label.for">{{input.label.text}}</label>
+          </div>
+      </div>
   </fieldset>
 </template>
 
@@ -31,7 +33,7 @@ export interface Content{
 defineProps({
     content:{
       type: Object as PropType<Content>,
-      required:false,
+      required:true,
       default:()=>null,
     }
 })
@@ -39,28 +41,59 @@ defineProps({
 </script>
 
 <style lang="scss" scoped>
-fieldset{
+.wrap{
+  height: auto;
+  overflow: auto;
+  max-width: 90vw;
   width: auto;
   display: flex;
   justify-content: space-around;
   border-left-style: none;
   border-right-style: none;
-  label {
-    margin-left: 1em;
-    display: inline-block;
-    &:hover{
-      cursor: pointer;
+  .content {
+    padding: 0.5rem 1rem;
+    label {
+      margin-left: 1em;
+      display: inline-block;
+
+      &:hover {
+        cursor: pointer;
+      }
     }
-  }
-  input[type="checkbox"] {
-    display:none;
-    &:checked + label {
-      font-weight: 900;
+
+    input[type="checkbox"] {
+      display: none;
+
+      &:checked + label {
+        font-weight: 900;
+        font-style: italic;
+      }
+    }
+
+    legend {
       font-style: italic;
     }
   }
-  legend{
-    font-style: italic;
+
+  ::-webkit-scrollbar {
+    width: 20px;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 10px;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: red;
+    border-radius: 10px;
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #b30000;
   }
 }
 </style>
