@@ -1,10 +1,10 @@
 <template>
   <div class="container">
     <div class="button-menu">
-      <button>&#10060;</button>
-      <button>&#129335;</button>
-      <button>&#127775;</button>
-      <button>&#128525;</button>
+      <button class="dislike-button">&#10060;</button>
+      <button class="unwatch-button">&#129335;</button>
+      <button class="super-like-button">&#127775;</button>
+      <button class="like-button">&#128525;</button>
     </div>
   </div>
 </template>
@@ -30,16 +30,27 @@ export default {
   justify-content: center;
   margin-inside: 1rem;
   button{
+    border: none;
     margin-left: 1rem;
-    border: 0;
     border-radius: 5rem;
     font-size: 1.5rem;
     padding: 0.4em 0.5em;
     box-shadow: 5px 5px 6px rosybrown;
-
     &:hover{
       cursor: pointer;
     }
+  }
+  .super-like-button{
+    box-shadow: 5px 5px 6px dodgerblue;
+  }
+  .like-button{
+    box-shadow: 5px 5px 6px green;
+  }
+  .dislike-button{
+    box-shadow: 5px 5px 6px red;
+  }
+  .unwatch-button{
+    box-shadow: 5px 5px 6px yellow;
   }
 }
 
