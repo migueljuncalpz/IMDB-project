@@ -11,16 +11,14 @@
   </div>
 </template>
 
-<script setup>
 
+<script setup lang="ts">
 import SwipeCard from "@/components/SwipeCard.vue";
 import {useFilmStore} from "@/stores/FilmStore";
 
 const store = useFilmStore()
 
-
 let films = store.getFilmsList
-
 const onSwipeLeft = () => {
   store.postDislike()
 }
@@ -30,8 +28,8 @@ const onSwipeRight = () => {
 const onSwipeUp = () => {
   store.postSuperLike()
 }
-
 </script>
+
 
 <style lang="scss">
 $dark-color: #1a1e24;

@@ -1,7 +1,8 @@
 <template>
+    <div class="overlay" v-show="showOverlay"></div>
     <div class="container">
-        <button :class="{'has-changed': clicked }" @click="handleClick" class="filter-button">{{ buttonText }}
-        </button>
+        <sidebar-menu @change="handleSignal"></sidebar-menu>
+        <button :class="{'has-changed': clicked }" @click="handleClick" class="filter-button">{{ buttonText }}</button>
     </div>
     <transition name="blind">
         <div class="filters-container" v-if="clicked">
@@ -20,9 +21,11 @@
 import RangeSlider from "@/components/RangeSlider.vue";
 import CheckBoxFilter from "@/components/CheckBoxFilter.vue";
 import {ref} from "vue";
+import SidebarMenu from "@/components/SidebarMenu.vue";
 
 let display = "none";
 let clicked = ref(false)
+let showOverlay= ref(false)
 let buttonText = "Filters"
 
 const inputLabels = {
@@ -51,50 +54,6 @@ const inputLabels = {
                 text: "Comedia"
             }
         },
-        {
-            input: {
-                name: "comedia",
-                id: "comedia",
-                value: "Comedia"
-            },
-            label: {
-                for: "comedia",
-                text: "Comedia"
-            }
-        },
-        {
-            input: {
-                name: "comedia",
-                id: "comedia",
-                value: "Comedia"
-            },
-            label: {
-                for: "comedia",
-                text: "Comedia"
-            }
-        },
-        {
-            input: {
-                name: "comedia",
-                id: "comedia",
-                value: "Comedia"
-            },
-            label: {
-                for: "comedia",
-                text: "Comedia"
-            }
-        },
-        {
-            input: {
-                name: "comedia",
-                id: "comedia",
-                value: "Comedia"
-            },
-            label: {
-                for: "comedia",
-                text: "Comedia"
-            }
-        },
     ]
 }
 
@@ -108,6 +67,9 @@ function handleClick() {
         display = "none"
     }
 }
+function handleSignal(data) {
+    showOverlay.value = !showOverlay.value
+}
 </script>
 
 <style scoped lang="scss">
@@ -116,8 +78,18 @@ $rose-color: #D9247B;
 $bone-color: #E4DCCF;
 $white-color: #98DFD6;
 
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba($dark-color, 0.5); /* semi-transparent black */
+  z-index: 99; /* set a high z-index to ensure it appears on top */
+}
 
 .container {
+  z-index: 100;
   max-width: 100vw;
   position: sticky;
   top: 0;
@@ -134,7 +106,7 @@ $white-color: #98DFD6;
   margin: 1rem 1rem;
   padding: 0.5rem 0.5rem;
   border-radius: 1rem;
-
+  z-index: 100;
   &:hover {
     cursor: pointer;
   }
@@ -155,7 +127,7 @@ $white-color: #98DFD6;
   padding: 1rem 1rem 1rem 1rem;
 
   .filter {
-      max-width: 90vw;
+    max-width: 90vw;
     padding: 0.5rem 0.5rem;
   }
 }

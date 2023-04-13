@@ -1,22 +1,25 @@
 import {defineStore} from "pinia";
-import type {FilmInfo} from "@/stores/types";
-import {Swipe} from "@/stores/enums";
 
-interface FilmSwiped {
-    id: number;
-    state: Swipe;
+
+export interface FilmInfo {
+    name: string
+    year: number
+    gender: string []
+    filmImage: string
+    filmId: number
+    synopsys: string
+    cast: string[]
+    valueRating: number
+    ageRating: string
 }
 
 interface State {
     filmsList: FilmInfo[],
-    filmsToSend: FilmSwiped[]
 }
 
 export const useFilmStore = defineStore('film', {
     state: (): State => {
         return {
-            filmsToSend: [],
-            // for initially empty lists
             filmsList: [
                 {
                     filmId: 1,
@@ -157,33 +160,6 @@ export const useFilmStore = defineStore('film', {
         getFilmsList: (state: State) => state.filmsList,
     },
     actions: {
-        postLike() {
-            this.postLiking(Swipe.Like)
-        },
-        postDislike() {
-            this.postLiking(Swipe.Dislike)
-        },
-        postSuperLike() {
-            this.postLiking(Swipe.Superlike)
-
-        },
-        postUnwatch() {
-            this.postLiking(Swipe.Unwatch)
-        },
-        postLiking(liking: Swipe) {
-            const filmId = this.filmsList.shift()?.filmId
-            if( filmId !== undefined){
-                const filmSwiped ={
-                    id:filmId,
-                    state:liking
-                }
-                this.filmsToSend.push(filmSwiped)
-            }
-            if(this.filmsToSend.length>=10){
-                //TODO Send data to BACK
-                console.log(this.filmsToSend)
-            }
-        }
 
     }
 })

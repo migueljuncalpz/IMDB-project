@@ -35,7 +35,7 @@
 
 <script setup lang="ts">
 
-import type {FilmInfo} from "@/stores/FilmStore";
+import type {FilmInfo} from "@/stores/types";
 import {computed, ref} from "vue";
 
 const props = defineProps({

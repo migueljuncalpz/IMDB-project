@@ -12,6 +12,8 @@
   </fieldset>
 </template>
 
+
+
 <script>
 export default {
   name: "RangeSlider",
@@ -51,6 +53,8 @@ export default {
   }
 }
 </script>
+
+
 
 <style lang="scss" scoped>
 $dark-color: #1a1e24;

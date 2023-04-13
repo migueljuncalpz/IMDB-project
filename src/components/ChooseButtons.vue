@@ -9,14 +9,9 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import {useFilmStore} from "@/stores/FilmStore";
 const store = useFilmStore()
-
-function likeEvent(){
-    this.$emit('likeEvent');
-}
-
 </script>
 
 <style scoped lang="scss">
