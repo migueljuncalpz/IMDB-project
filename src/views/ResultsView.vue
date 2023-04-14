@@ -1,11 +1,11 @@
 <template>
     <div class="overlay" v-show="showOverlay"></div>
-    <div class="container">
-        <sidebar-menu @change="handleSignal"></sidebar-menu>
+    <sidebar-menu @change="handleSignal"></sidebar-menu>
+    <div class="container" v-if="!showOverlay">
         <button :class="{'has-changed': clicked }" @click="handleClick" class="filter-button">{{ buttonText }}</button>
     </div>
     <transition name="blind">
-        <div class="filters-container" v-if="clicked">
+        <div class="filters-container" v-if="clicked & !showOverlay">
             <div class="filter">
                 <CheckBoxFilter :content="inputLabels"></CheckBoxFilter>
             </div>

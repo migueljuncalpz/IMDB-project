@@ -11,47 +11,36 @@
     </div>
   </fieldset>
 </template>
+<script setup>
 
+import { reactive, computed } from 'vue';
 
+const state = reactive({
+    minAngle: 10,
+    maxAngle: 30,
+});
 
-<script>
-export default {
-  name: "RangeSlider",
-  data(){
-    return{
-      minAngle: 10,
-      maxAngle: 30
-    }
-  },
-  computed: {
-    sliderMin: {
-      get: function() {
-        var val = parseInt(this.minAngle);
-        return val;
-      },
-      set: function(val) {
+const sliderMin = computed({
+    get: () => parseInt(state.minAngle),
+    set: (val) => {
         val = parseInt(val);
-        if (val > this.maxAngle) {
-          this.maxAngle = val;
+        if (val > state.maxAngle) {
+            state.maxAngle = val;
         }
-        this.minAngle = val;
-      }
+        state.minAngle = val;
     },
-    sliderMax: {
-      get: function() {
-        var val = parseInt(this.maxAngle);
-        return val;
-      },
-      set: function(val) {
+});
+
+const sliderMax = computed({
+    get: () => parseInt(state.maxAngle),
+    set: (val) => {
         val = parseInt(val);
-        if (val < this.minAngle) {
-          this.minAngle = val;
+        if (val < state.minAngle) {
+            state.minAngle = val;
         }
-        this.maxAngle = val;
-      }
-    }
-  }
-}
+        state.maxAngle = val;
+    },
+});
 </script>
 
 
@@ -70,7 +59,7 @@ $white-color: #98DFD6;
   .numbers-container{
     display: flex;
     justify-content: space-between;
-    padding: 0.3em 0em;
+    padding: 0.3em 0;
     input[type=number]{
       margin-left: 1rem;
       background-color: $dark-color;
@@ -89,7 +78,6 @@ $white-color: #98DFD6;
       width: 100%;
       height: 5px;
       cursor: pointer;
-      animate: 0.2s;
       background: white;
       border-radius: 1px;
       box-shadow: none;
@@ -99,7 +87,7 @@ $white-color: #98DFD6;
     &::-webkit-slider-thumb {
       z-index: 2;
       position: relative;
-      box-shadow: 0px 0px 0px #000;
+      box-shadow: 0 0 0 #000;
       height: 18px;
       width: 18px;
       border-radius: 25px;

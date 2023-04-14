@@ -1,4 +1,7 @@
+
+
 <template>
+    <!-- TODO corrections on height and width of cards for each display measures  -->
   <div class="card" @touchstart="onTouchStart" @touchend="onSwipeEnd" @touchmove="onTouchMove"
        @mousedown="onMouseDown" @mousemove="onMouseMove" @mouseup="onSwipeEnd"
        :style="{ transform: 'translate(' + translateX + 'px,' + translateY +'px)'}"

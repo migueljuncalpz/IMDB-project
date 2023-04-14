@@ -1,43 +1,41 @@
 <template>
-    <div class="sidebar" :style="{ transform: sidebarTransform }">
-        <div class="content">
-            <button class="option">My liked Films</button>
-            <button class="option">My liked Series</button>
-        </div>
+  <div class="sidebar" :style="{ transform: sidebarTransform }">
+    <div class="content">
+      <button class="option">My liked Films</button>
+      <button class="option">My liked Series</button>
     </div>
-    <button class="menu-button" @click="toggleSidebar">{{ buttonContent }}</button>
+  </div>
+  <button class="menu-button" @click="toggleSidebar">{{ buttonContent }}</button>
 </template>
 
 <script setup lang="ts">
-import {ref, computed} from 'vue';
+import { ref, computed } from 'vue'
 
-const isSidebarOpen = ref(false);
-const buttonContent = ref("☰");
+const isSidebarOpen = ref(false)
+const buttonContent = ref('☰')
 let emit = defineEmits(['change'])
 
 function toggleSidebar() {
-    isSidebarOpen.value = !isSidebarOpen.value;
-    if (isSidebarOpen.value) {
-        buttonContent.value = "⛌"
-        emit("change", isSidebarOpen.value)
-    } else {
-        buttonContent.value = "☰"
-        emit("change", isSidebarOpen.value)
-    }
+  isSidebarOpen.value = !isSidebarOpen.value
+  if (isSidebarOpen.value) {
+    buttonContent.value = '⛌'
+    emit('change', isSidebarOpen.value)
+  } else {
+    buttonContent.value = '☰'
+    emit('change', isSidebarOpen.value)
+  }
 }
 
-
 const sidebarTransform = computed(() => {
-    return isSidebarOpen.value ? 'translateX(0)' : 'translateX(-100%)';
-});
-
+  return isSidebarOpen.value ? 'translateX(0)' : 'translateX(-100%)'
+})
 </script>
 
 <style lang="scss">
 $dark-color: #1a1e24;
-$rose-color: #D9247B;
-$bone-color: #E4DCCF;
-$white-color: #98DFD6;
+$rose-color: #d9247b;
+$bone-color: #e4dccf;
+$white-color: #98dfd6;
 .sidebar {
   background: $dark-color;
   position: fixed;
@@ -54,7 +52,7 @@ $white-color: #98DFD6;
     display: grid;
     justify-content: center;
     .option {
-        padding-top: 2rem;
+      padding-top: 2rem;
       color: inherit;
       background: inherit;
       border: none;
