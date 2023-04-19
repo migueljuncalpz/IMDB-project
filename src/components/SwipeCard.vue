@@ -229,7 +229,7 @@ $white-color: #98DFD6;
   cursor: pointer;
   min-width: 300px;
   max-width: 400px;
-  max-height: 70vh;
+  max-height: 600px;
   perspective: 1000px;
   margin: 1rem;
   grid-row-start: 1;

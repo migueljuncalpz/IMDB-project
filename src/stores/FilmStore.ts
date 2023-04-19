@@ -1,6 +1,7 @@
 import {defineStore} from "pinia";
 import type {FilmInfo} from "@/stores/types";
 import {Swipe} from "@/stores/enums";
+import router from "@/router";
 
 interface FilmSwiped {
     id: number;
@@ -182,6 +183,9 @@ export const useFilmStore = defineStore('film', {
             if(this.filmsToSend.length>=10){
                 //TODO Send data to BACK
                 console.log(this.filmsToSend)
+            }
+            if(this.filmsList.length===0){
+                router.push("/results")
             }
         }
 

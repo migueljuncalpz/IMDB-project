@@ -1,7 +1,10 @@
 <template>
   <div class="sidebar" :style="{ transform: sidebarTransform }">
     <div class="content">
-      <button class="option">My liked Films</button>
+        <div class=" avatar">
+            <img src="../assets/images/User.svg">
+        </div>
+        <button class="option">My liked Films</button>
       <button class="option">My liked Series</button>
     </div>
   </div>
@@ -62,11 +65,17 @@ $white-color: #98dfd6;
         cursor: pointer;
       }
     }
+    .avatar{
+      background-color: white;
+      border-radius: 6rem;
+      padding: 1em 1em;
+    }
   }
 }
 
 .menu-button {
   left: 0;
+  top:0;
   position: fixed;
   border-style: none;
   color: white;

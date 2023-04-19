@@ -17,7 +17,7 @@ interface State {
     filmsList: FilmInfo[],
 }
 
-export const useFilmStore = defineStore('film', {
+export const useResultStore = defineStore('film', {
     state: (): State => {
         return {
             filmsList: [
