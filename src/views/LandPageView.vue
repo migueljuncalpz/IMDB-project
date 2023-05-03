@@ -21,7 +21,7 @@
 
       <transition name="started">
         <div class="button-menu" v-show="start">
-          <button class="films-button" @click="getStarted('films')" role="button">Films</button>
+          <button class="films-button" @click="getStarted('movies')" role="button">Films</button>
           <button class="series-button" @click="getStarted('series')" role="button">Series</button>
         </div>
       </transition>

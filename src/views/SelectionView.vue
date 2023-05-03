@@ -1,7 +1,7 @@
 <template>
   <div class="selection-view">
     <SelectionResults @click="getResults" :results-type="type"></SelectionResults>
-    <CardDeck></CardDeck>
+    <CardDeck :results-type="type"></CardDeck>
     <ChooseButtons></ChooseButtons>
   </div>
 </template>
@@ -44,10 +44,20 @@ $white-color: #98DFD6;
 <script setup lang="ts">
 
 import {useRouter,useRoute} from "vue-router";
+import {useFilmStore} from "@/stores/FilmStore";
+import {onBeforeMount} from "vue";
+
 
 const router = useRouter()
 const route = useRoute()
-const type = route.params.typeResults
+let store = useFilmStore()
+const type = String(route.params.typeResults)
+
+const beforeMount = () => {
+    store.getMoviesOrSeries(type)
+};
+onBeforeMount(beforeMount)
+
 function getResults(){
   router.push("/results")
 }

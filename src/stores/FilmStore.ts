@@ -1,16 +1,14 @@
 import {defineStore} from "pinia";
-import type {FilmInfo} from "@/stores/types";
+import type {FilmInfo, SeriesInfo} from "@/stores/types";
 import {Swipe} from "@/stores/enums";
 import router from "@/router";
 
-interface FilmSwiped {
-    id: number;
-    state: Swipe;
-}
+
 
 interface State {
+    seriesList:SeriesInfo[],
     filmsList: FilmInfo[],
-    filmsToSend: FilmSwiped[]
+    filmsToSend: Array<[string,string,string,string]>
 }
 
 export const useFilmStore = defineStore('film', {
@@ -18,146 +16,69 @@ export const useFilmStore = defineStore('film', {
         return {
             filmsToSend: [],
             // for initially empty lists
-            filmsList: [
-                {
-                    filmId: 1,
-                    filmImage: "https://static.euronews.com/articles/stories/07/31/01/20/606x758_cmsv2_dfdbec3d-af7a-5e75-9ae7-2ec0188cbf9a-7310120.jpg",
-                    name: 'Titanic',
-                    year: 1997,
-                    synopsys: 'James Cameron\'s "Titanic" is an epic, action-packed romance set against ... waters of the North Atlantic in the early hours of April 15, 1912.',
-                    gender: [],
-                    valueRating: 7.9,
-                    ageRating: "+13",
-                    cast: []
-                },
-                {
-                    filmId: 2,
-                    filmImage: "https://static.euronews.com/articles/stories/07/31/01/20/606x758_cmsv2_dfdbec3d-af7a-5e75-9ae7-2ec0188cbf9a-7310120.jpg",
-                    name: 'Titanic2',
-                    year: 1997,
-                    synopsys: 'James Cameron\'s "Titanic" is an epic, action-packed romance set against ... waters of the North Atlantic in the early hours of April 15, 1912.',
-                    gender: [],
-                    valueRating: 7.9,
-                    ageRating: "+13",
-                    cast: []
-                },
-                {
-                    filmId: 3,
-                    filmImage: "https://static.euronews.com/articles/stories/07/31/01/20/606x758_cmsv2_dfdbec3d-af7a-5e75-9ae7-2ec0188cbf9a-7310120.jpg",
-                    name: 'Titanic3',
-                    year: 1997,
-                    synopsys: 'James Cameron\'s "Titanic" is an epic, action-packed romance set against ... waters of the North Atlantic in the early hours of April 15, 1912.',
-                    gender: [],
-                    valueRating: 7.9,
-                    ageRating: "+13",
-                    cast: []
-                },
-                {
-                    filmId: 4,
-                    filmImage: "https://static.euronews.com/articles/stories/07/31/01/20/606x758_cmsv2_dfdbec3d-af7a-5e75-9ae7-2ec0188cbf9a-7310120.jpg",
-                    name: 'Titanic4',
-                    year: 1997,
-                    synopsys: 'James Cameron\'s "Titanic" is an epic, action-packed romance set against ... waters of the North Atlantic in the early hours of April 15, 1912.',
-                    gender: [],
-                    valueRating: 7.9,
-                    ageRating: "+13",
-                    cast: []
-                },
-                {
-                    filmId: 1,
-                    filmImage: "https://static.euronews.com/articles/stories/07/31/01/20/606x758_cmsv2_dfdbec3d-af7a-5e75-9ae7-2ec0188cbf9a-7310120.jpg",
-                    name: 'Titanic',
-                    year: 1997,
-                    synopsys: 'James Cameron\'s "Titanic" is an epic, action-packed romance set against ... waters of the North Atlantic in the early hours of April 15, 1912.',
-                    gender: [],
-                    valueRating: 7.9,
-                    ageRating: "+13",
-                    cast: []
-                },
-                {
-                    filmId: 2,
-                    filmImage: "https://static.euronews.com/articles/stories/07/31/01/20/606x758_cmsv2_dfdbec3d-af7a-5e75-9ae7-2ec0188cbf9a-7310120.jpg",
-                    name: 'Titanic2',
-                    year: 1997,
-                    synopsys: 'James Cameron\'s "Titanic" is an epic, action-packed romance set against ... waters of the North Atlantic in the early hours of April 15, 1912.',
-                    gender: [],
-                    valueRating: 7.9,
-                    ageRating: "+13",
-                    cast: []
-                },
-                {
-                    filmId: 3,
-                    filmImage: "https://static.euronews.com/articles/stories/07/31/01/20/606x758_cmsv2_dfdbec3d-af7a-5e75-9ae7-2ec0188cbf9a-7310120.jpg",
-                    name: 'Titanic3',
-                    year: 1997,
-                    synopsys: 'James Cameron\'s "Titanic" is an epic, action-packed romance set against ... waters of the North Atlantic in the early hours of April 15, 1912.',
-                    gender: [],
-                    valueRating: 7.9,
-                    ageRating: "+13",
-                    cast: []
-                },
-                {
-                    filmId: 4,
-                    filmImage: "https://static.euronews.com/articles/stories/07/31/01/20/606x758_cmsv2_dfdbec3d-af7a-5e75-9ae7-2ec0188cbf9a-7310120.jpg",
-                    name: 'Titanic4',
-                    year: 1997,
-                    synopsys: 'James Cameron\'s "Titanic" is an epic, action-packed romance set against ... waters of the North Atlantic in the early hours of April 15, 1912.',
-                    gender: [],
-                    valueRating: 7.9,
-                    ageRating: "+13",
-                    cast: []
-                },
-                {
-                    filmId: 1,
-                    filmImage: "https://static.euronews.com/articles/stories/07/31/01/20/606x758_cmsv2_dfdbec3d-af7a-5e75-9ae7-2ec0188cbf9a-7310120.jpg",
-                    name: 'Titanic',
-                    year: 1997,
-                    synopsys: 'James Cameron\'s "Titanic" is an epic, action-packed romance set against ... waters of the North Atlantic in the early hours of April 15, 1912.',
-                    gender: [],
-                    valueRating: 7.9,
-                    ageRating: "+13",
-                    cast: []
-                },
-                {
-                    filmId: 2,
-                    filmImage: "https://static.euronews.com/articles/stories/07/31/01/20/606x758_cmsv2_dfdbec3d-af7a-5e75-9ae7-2ec0188cbf9a-7310120.jpg",
-                    name: 'Titanic2',
-                    year: 1997,
-                    synopsys: 'James Cameron\'s "Titanic" is an epic, action-packed romance set against ... waters of the North Atlantic in the early hours of April 15, 1912.',
-                    gender: [],
-                    valueRating: 7.9,
-                    ageRating: "+13",
-                    cast: []
-                },
-                {
-                    filmId: 3,
-                    filmImage: "https://static.euronews.com/articles/stories/07/31/01/20/606x758_cmsv2_dfdbec3d-af7a-5e75-9ae7-2ec0188cbf9a-7310120.jpg",
-                    name: 'Titanic3',
-                    year: 1997,
-                    synopsys: 'James Cameron\'s "Titanic" is an epic, action-packed romance set against ... waters of the North Atlantic in the early hours of April 15, 1912.',
-                    gender: [],
-                    valueRating: 7.9,
-                    ageRating: "+13",
-                    cast: []
-                },
-                {
-                    filmId: 4,
-                    filmImage: "https://static.euronews.com/articles/stories/07/31/01/20/606x758_cmsv2_dfdbec3d-af7a-5e75-9ae7-2ec0188cbf9a-7310120.jpg",
-                    name: 'Titanic4',
-                    year: 1997,
-                    synopsys: 'James Cameron\'s "Titanic" is an epic, action-packed romance set against ... waters of the North Atlantic in the early hours of April 15, 1912.',
-                    gender: [],
-                    valueRating: 7.9,
-                    ageRating: "+13",
-                    cast: []
-                },
-            ],
+            filmsList: [],
+            seriesList:[]
         }
     },
     getters: {
         getFilmsList: (state: State) => state.filmsList,
+        getSeriesList: (state: State) => state.seriesList,
+
     },
+
     actions: {
+        getMoviesOrSeries(moviesOrSeries:string){
+            if(moviesOrSeries==="movies"){
+                console.log("Movies")
+                fetch('http://localhost:8080/search/movies')
+                    .then(response => response.json())
+                    .then(data =>{
+                        console.log("Movies GET: "+data.length)
+                        let i=0
+                        const filmsList:FilmInfo[] = []
+                        for( i ; i<20 ; i++){
+                            const film:FilmInfo = {
+                                director:data[i].directors[0].fullName,
+                                name:data[i].primaryTitle,
+                                valueRating:data[i].averageRating,
+                                runtimeMinutes:data[i].runtimeMinutes,
+                                year:data[i].startYear,
+                                gender:data[i].genres,
+                                filmId:data[i].tconst,
+                                cast:data[i].starring,
+                                filmImage: "",
+                            }
+                            console.log(film)
+                            filmsList.push(film)
+                        }
+                        this.filmsList=filmsList
+                    })
+                    .catch(error => console.error(error));
+            }else{
+                fetch('http://localhost:8080/search/series')
+                    .then(response => response.json())
+                    .then(data =>{
+                        let i=0
+                        const seriesList:SeriesInfo[] = []
+                        for( i ; i<20 ; i++){
+                            const series:SeriesInfo = {
+                                name:data[i].primaryTitle,
+                                valueRating:data[i].averageRating,
+                                runtimeMinutes:data[i].runtimeMinutes,
+                                year:data[i].startYear,
+                                gender:data[i].genres,
+                                seriesId:data[i].tconst,
+                                cast:data[i].starring,
+                                filmImage: "",
+                                director:data[i].directors[0].fullName
+                            }
+                            seriesList.push(series)
+                        }
+                        this.seriesList= seriesList
+                    })
+                    .catch(error => console.error(error));
+            }
+        },
         postLike() {
             this.postLiking(Swipe.Like)
         },
@@ -172,22 +93,38 @@ export const useFilmStore = defineStore('film', {
             this.postLiking(Swipe.Unwatch)
         },
         postLiking(liking: Swipe) {
-            const filmId = this.filmsList.shift()?.filmId
-            if( filmId !== undefined){
-                const filmSwiped ={
-                    id:filmId,
-                    state:liking
-                }
+            let id
+            let director
+            let gender
+            if(this.filmsList.length!==0){
+                const film=this.filmsList.shift()
+                id = film?.filmId
+                director = film?.director
+                gender = film?.gender
+            }else{
+                const series=this.seriesList.shift()
+                id = series?.seriesId
+                director = series?.director
+                gender = series?.gender
+            }
+            if( id !== undefined && gender!== undefined && director!==undefined && liking!==undefined){
+                const filmSwiped:[string,string,string,string] = [id.toString(),gender?.[0],director,liking]
                 this.filmsToSend.push(filmSwiped)
             }
             if(this.filmsToSend.length>=10){
-                //TODO Send data to BACK
-                console.log(this.filmsToSend)
+                fetch('http://localhost:8080/search/findr', {
+                    method: 'GET',
+                    body: JSON.stringify(this.filmsToSend),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }).then(response => response.json()
+                ).then(json => console.log(json)
+                ).catch( error => console.log(error));
             }
-            if(this.filmsList.length===0){
+            if(this.filmsList.length===0 && this.seriesList.length===0){
                 router.push("/results")
             }
         }
-
-    }
+    },
 })

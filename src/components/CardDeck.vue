@@ -1,7 +1,7 @@
 <template>
-  <div class="wrap">
+  <div class="wrap" v-if="props.resultsType==='movies'">
     <SwipeCard v-for="(film,index) in store.getFilmsList" :key="film.filmId"
-               v-bind:style="{'z-index': (films.length-index)-1}"
+               v-bind:style="{'z-index': -(index)}"
                :filmInfo="film"
                :index=index
                @swipeLeft="onSwipeLeft"
@@ -9,6 +9,16 @@
                @swipeUp="onSwipeUp"
     />
   </div>
+    <div class="wrap" v-else-if="props.resultsType==='series'">
+        <SwipeCard v-for="(serie,index) in store.getSeriesList" :key="serie.filmId"
+                   v-bind:style="{'z-index': -(index)}"
+                   :filmInfo="serie"
+                   :index=index
+                   @swipeLeft="onSwipeLeft"
+                   @swipeRight="onSwipeRight"
+                   @swipeUp="onSwipeUp"
+        />
+    </div>
 </template>
 
 
@@ -16,9 +26,17 @@
 import SwipeCard from "@/components/SwipeCard.vue";
 import {useFilmStore} from "@/stores/FilmStore";
 
+const props= defineProps({
+    resultsType:{
+        type:String,
+        required:true
+    }
+})
+
 const store = useFilmStore()
 
-let films = store.getFilmsList
+
+
 const onSwipeLeft = () => {
   store.postDislike()
 }
@@ -28,6 +46,7 @@ const onSwipeRight = () => {
 const onSwipeUp = () => {
   store.postSuperLike()
 }
+
 </script>
 
 

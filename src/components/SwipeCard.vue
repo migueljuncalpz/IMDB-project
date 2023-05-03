@@ -1,7 +1,6 @@
 
 
 <template>
-    <!-- TODO corrections on height and width of cards for each display measures  -->
   <div class="card" @touchstart="onTouchStart" @touchend="onSwipeEnd" @touchmove="onTouchMove"
        @mousedown="onMouseDown" @mousemove="onMouseMove" @mouseup="onSwipeEnd"
        :style="{ transform: 'translate(' + translateX + 'px,' + translateY +'px)'}"
@@ -9,13 +8,11 @@
     <div :style="{opacity:likeOpacity}" class="like-film">YES!</div>
     <div :style="{opacity:dislikeOpacity}" class="dislike-film">NO!!</div>
     <div :style="{opacity:superlikeOpacity}" class="superlike-film">LOVE IT!</div>
-
-    <div class="front" v-bind:style="{ 'background-image': 'url(' + props.filmInfo.filmImage + ')' ,
-                                          'transform': 'rotateY(' + degreesFront+ ')'}">
+    <div class="front" v-bind:style="{'transform': 'rotateY(' + degreesFront+ ')'}">
       <div class="film-rating">{{props.filmInfo.valueRating}}</div>
-      <div class="age-rating">{{props.filmInfo.ageRating}}</div>
+      <div class="age-rating">{{props.filmInfo.runtimeMinutes}}</div>
       <h3 class="film-title">{{ props.filmInfo.name }}<br>{{ props.filmInfo.year }}</h3>
-      <h5 class="film-gender">{{props.filmInfo.gender}}</h5>
+      <h5 class="film-gender">{{props.filmInfo.gender.join(", ")}}</h5>
       <button class="film-info-button" @click="changeToBack()">info</button>
     </div>
     <div onclick="" class="back" v-bind:style="{'transform': 'rotateY(' + degreesBack+ ')'}">
@@ -99,6 +96,7 @@ function translation() {
 }
 
 function onTouchStart(event: any) {
+    console.log("Start" )
   dragging = true;
   startX = event.touches[0].clientX;
   startY = event.touches[0].clientY;
@@ -152,6 +150,7 @@ function onSwipeEnd() {
 }
 
 function onMouseDown(e: any) {
+    console.log("Start")
   dragging = true
   startX = e.clientX;
   startY = e.clientY;
@@ -159,22 +158,6 @@ function onMouseDown(e: any) {
   y = startY
 }
 
-function animateXPosition(targetX:number, duration:number) {
-    const distanceX = startX + targetX;
-    const startTime = Date.now();
-    const endTime = startTime + duration;
-    function updatePosition() {
-        const currentTime = Date.now();
-        const elapsed = Math.min(duration, currentTime - startTime);
-        const progress = elapsed / duration;
-        translateX.value = startX + distanceX * progress;
-        if (currentTime < endTime) {
-            requestAnimationFrame(updatePosition);
-        }
-    }
-
-    requestAnimationFrame(updatePosition);
-}
 function onMouseMove(e: any) {
   if (dragging) {
     currentX = e.clientX;
@@ -207,7 +190,6 @@ function changeToFront() {
 }
 
 </script>
-
 <style lang="scss" scoped>
 $dark-color: #1a1e24;
 $rose-color: #D9247B;
@@ -236,6 +218,9 @@ $white-color: #98DFD6;
   grid-column-start: 1;
   justify-self: center;
   transform: translate(v-bind(x));
+  background: white;
+  border-radius: 1rem;
+
 
   .like-film, .dislike-film, .superlike-film {
     color: black;
