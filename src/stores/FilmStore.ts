@@ -3,6 +3,9 @@ import type {FilmInfo, SeriesInfo} from "@/stores/types";
 import {Swipe} from "@/stores/enums";
 import router from "@/router";
 
+import { useResultStore } from './FilmResultStore'
+
+const resultStore= useResultStore();
 
 
 interface State {
@@ -112,15 +115,22 @@ export const useFilmStore = defineStore('film', {
                 this.filmsToSend.push(filmSwiped)
             }
             if(this.filmsToSend.length>=10){
+                const formData = new FormData();
+                formData.append('titleType', 'movie');
+                for(const swipe in this.filmsToSend){
+                    formData.append('list', swipe[0]);
+                    formData.append('list', swipe[1]);
+                    formData.append('list', swipe[2]);
+                    formData.append('list', swipe[3]);
+                }
+
                 fetch('http://localhost:8080/search/findr', {
-                    method: 'GET',
-                    body: JSON.stringify(this.filmsToSend),
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                }).then(response => response.json()
-                ).then(json => console.log(json)
-                ).catch( error => console.log(error));
+                    method: 'POST',
+                    body: formData,
+                })  .then(response => response.json())
+                    .then(json => console.log(json))
+                    .catch( error => console.log(error));
+
             }
             if(this.filmsList.length===0 && this.seriesList.length===0){
                 router.push("/results")
